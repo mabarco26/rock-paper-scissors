@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+</head>
+<body>
+    <script>
+        function game (){
+            let playerScore = 0
+            let computer = 0
+
+            let playerSelection1 = getPlayerChoice ();
+            let computerSelection1 = getComputerChoice();
+            let game1 = playRound(playerSelection1, computerSelection1);
+            alert(game1);
+            if (game1.substr(4,1) === "W" ) {
+                playerScore++;
+            } else if (game1.substr(4,1) === "L") {
+                computer++;
+            } else {};
+
+            let playerSelection2 = getPlayerChoice ();
+            let computerSelection2 = getComputerChoice();
+            let game2 = playRound(playerSelection2, computerSelection2);
+            alert(game2);
+            if (game2.substr(4,1) === "W" ) {
+                playerScore++;
+            } else if (game2.substr(4,1) === "L") {
+                computer++;
+            } else {};
+
+            let playerSelection3 = getPlayerChoice ();
+            let computerSelection3 = getComputerChoice();
+            let game3 = playRound(playerSelection3, computerSelection3);
+            alert(game3);
+            if (game3.substr(4,1) === "W" ) {
+                playerScore++;
+            } else if (game3.substr(4,1) === "L") {
+                computer++;
+            } else {};
+
+            let playerSelection4 = getPlayerChoice ();
+            let computerSelection4 = getComputerChoice();
+            let game4 = playRound(playerSelection4, computerSelection4);
+            alert(game4);
+            if (game4.substr(4,1) === "W" ) {
+                playerScore++;
+            } else if (game4.substr(4,1) === "L") {
+                computer++;
+            } else {}
+
+            let playerSelection5 = getPlayerChoice ();
+            let computerSelection5 = getComputerChoice();
+            let game5 = playRound(playerSelection5, computerSelection5);
+            alert(game5);
+            if (game5.substr(4,1) === "W" ) {
+                playerScore++;
+            } else if (game5.substr(4,1) === "L") {
+                computer++;
+            } else {}
+
+            if (playerScore > computer){
+                return finalScore = "Score: Player: " + playerScore + " vs Computer: " + computer + ". You won!!!";
+            } else if (playerScore < computer) {
+                return finalScore = "Score: Player: " + playerScore + " vs Computer: " + computer + ". You lose :(";
+            } else {
+               return finalScore = "Score: Player: " + playerScore + " vs Computer: " + computer + ". Is a tie!!!"; 
+            };
+        }
+            function playRound(playerSelection, computerSelection) {
+                if (playerSelection === "rock" && computerSelection === "paper"){
+                    return gameResult = "You Lose! Paper beats Rock"
+                } else if (playerSelection === "rock" && computerSelection === "scissors"){
+                    return gameResult = "You Won! Rock beats Scissors"
+                } else if (playerSelection === "paper" && computerSelection === "rock"){
+                    return gameResult = "You Won! Paper beats Rock"
+                } else if (playerSelection === "paper" && computerSelection === "scissors"){
+                    return gameResult = "You Lose! Scissors beats Paper"
+                } else if (playerSelection === "scissors" && computerSelection === "rock"){
+                    return gameResult = "You Lose! Rock beats Scissors"
+                } else if (playerSelection === "scissors" && computerSelection === "paper"){
+                    return gameResult = "You Won! Scissors beats Paper"
+                } else if (playerSelection === computerSelection){
+                    return gameResult = "Tie, re-play the round"
+                } else { return gameResult = "Re-play the round"}
+            };
+
+            function getComputerChoice() { 
+                let randomNumber= Math.floor(Math.random()*10);
+                if (randomNumber < 3.33) {
+                element = "rock"
+                } else if (randomNumber > 6.66) {
+                element = "scissors"
+                } else {
+                element = "paper"
+                };
+                return element;
+                };
+
+            function getPlayerChoice () {
+                let optionChoose = prompt("Lets play! Enter rock, paper or scissors ");
+                let chooseNoSpaces = optionChoose.trim();
+                let lowerCaseChoose = chooseNoSpaces.toLowerCase();
+                if (lowerCaseChoose === "rock" || lowerCaseChoose === "paper" || lowerCaseChoose === "scissors") {
+                    let playerChoice = lowerCaseChoose;
+                    return playerChoice;
+                } else {
+                    alert("Sorry, This is not a valid choice to play! Try again.");
+                    return getPlayerChoice();
+                };
+                
+            }
+ 
+            let gamesResults = game();
+           alert(gamesResults);
+    </script>
+</body>
+</html>
