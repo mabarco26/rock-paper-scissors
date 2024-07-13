@@ -3,47 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Botón y Div</title>
+    <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        .button-container {
-            margin: 20px;
+        .computerChoice {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .display-div {
-            border: 1px solid #000;
-            padding: 10px;
-            margin-top: 20px;
+
+        #countdown {
+            position: absolute;
+            font-size: 3em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
         }
-        .button-container button img {
-            width: 50px;
-            height: 50px;
+
+        #displayImgPc, #displayTitlePc {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div class="button-container">
-        <button onclick="displayInfo('./src/paper_ani.png', 'Título 1')">
-            <img src="./src/paper_ani.png" alt="Imagen 1">
-            <h3>Título 1</h3>
-        </button>
-        <button onclick="displayInfo('img2.jpg', 'Título 2')">
-            <img src="./src/rock_ani.png" alt="Imagen 2">
-            <h3>Título 2</h3>
-        </button>
-    </div>
-    <div class="display-div" id="displayDiv">
-        <img id="displayImg" src="" alt="" style="display: none;">
-        <h3 id="displayTitle"></h3>
-    </div>
+    <section class="player_score">
+        <h2>Your score</h2>
+        <div class="score">0</div>
+        <div class="score_message"></div>
+    </section>
+    <section class="game_section">
+        <h1>ROCK, PAPER AND SCISSORS</h1>
+        <h2>Let's play</h2>
+        <div id="player_pad">
+            <p>Choose an option:</p>
+            <div id="game_selection">
+                <button id="rockBtn">
+                    <img src="./src/rock_ani.png" alt="rock_animation" id="rock">
+                    <h6 id="rockTitle">ROCK</h6>
+                </button>
+                <button id="paperBtn">
+                    <img src="./src/paper_ani.png" alt="paper_animation" id="paper">
+                    <h6 id="paperTitle">PAPER</h6>
+                </button>
+                <button id="scissorsBtn">
+                    <img src="./src/scissors_ani.png" alt="scissors_animation" id="scissors">
+                    <h6 id="scissorsTitle">SCISSORS</h6>
+                </button>
+            </div>
+        </div>
+        <h3>ROUND <span class="round_numb">1</span> / 5</h3>
+        <section class="results">
+            <section>
+                <div class="humanChoice">
+                    <img id="displayImgPlayer" src="" alt="" style="display: none">
+                    <h6 id="displayTitlePlayer"></h6>
+                </div>
+                <p>Your choice</p>
+            </section>
+            <p>VS</p>
+            <section>
+                <div class="computerChoice">
+                    <div id="countdown">3</div>
+                    <img id="displayImgPc" src="" alt="">
+                    <h6 id="displayTitlePc"></h6>  
+                </div>
+                <p>CPU choice</p>
+            </section>
+        </section>
+    </section>
+    <section class="CPU_score">
+        <h2>CPU score</h2>
+        <div class="score">0</div>
+        <div class="score_message"></div>
+    </section>
 
     <script>
-        function displayInfo(imageSrc, title) {
-            var displayImg = document.getElementById('displayImg');
-            var displayTitle = document.getElementById('displayTitle');
+        const buttons = document.querySelectorAll('#game_selection button');
+        const countdownElement = document.getElementById('countdown');
+        const displayImgPc = document.getElementById('displayImgPc');
+        const displayTitlePc = document.getElementById('displayTitlePc');
 
-            displayImg.src = imageSrc;
-            displayImg.style.display = 'block';
-            displayTitle.innerText = title;
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                startCountdown(() => {
+                    const choices = ['rock', 'paper', 'scissors'];
+                    const randomChoice = choices[Math.floor(Math.random() * choices.length)];
+                    
+                    displayImgPc.src = `./src/${randomChoice}_ani.png`;
+                    displayImgPc.style.display = 'block';
+                    displayTitlePc.textContent = randomChoice.toUpperCase();
+                    displayTitlePc.style.display = 'block';
+                    countdownElement.style.display = 'none';
+                });
+            });
+        });
+
+        function startCountdown(callback) {
+            let count = 3;
+            countdownElement.textContent = count;
+            countdownElement.style.display = 'flex';
+            displayImgPc.style.display = 'none';
+            displayTitlePc.style.display = 'none';
+
+            const countdownInterval = setInterval(() => {
+                count--;
+                countdownElement.textContent = count;
+                if (count === 0) {
+                    clearInterval(countdownInterval);
+                    callback();
+                }
+            }, 1000);
         }
     </script>
 </body>
 </html>
+

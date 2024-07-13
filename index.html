@@ -67,14 +67,17 @@
 
             rckBtn.addEventListener('click', function() {
                 displayInfo('rock');
+                getComputerChoice();
             });
 
             pprBtn.addEventListener('click', function() {
                 displayInfo('paper');
+                getComputerChoice();
             });
 
             scrBtn.addEventListener('click', function() {
                 displayInfo('scissors');
+                getComputerChoice();
             });
 
             function displayInfo(choice) {
@@ -92,13 +95,69 @@
                         imgSrc = document.getElementById('scissors').src;
                         titleText = document.getElementById('scissorsTitle').innerText;
                         break;
-                }
+                };
                 
                 hmanChceBox.style.backgroundColor = '#0D9488';
                 displayImgPlayer.src = imgSrc;
                 displayImgPlayer.style.display = 'block';
                 displayTitlePlayer.innerText = titleText;
-            }
+            };
+
+            function randomElement() { 
+            let randomNumber= Math.floor(Math.random()*10);
+            if (randomNumber < 3.33) {
+            element = "rock"
+            } else if (randomNumber > 6.66) {
+            element = "scissors"
+            } else {
+            element = "paper"
+            };
+            return element;
+            }; 
+
+            console.log(randomElement)
+
+            function getComputerChoice() { 
+                let rdmElmnt = randomElement();
+                let cpuImg, cpuTitle;
+                switch(rdmElmnt) {
+                    case 'rock':
+                        cpuImg = document.getElementById('rock').src;
+                        cpuTitle = document.getElementById('rockTitle').innerText;
+                        break;
+                    case 'paper':
+                        cpuImg = document.getElementById('paper').src;
+                        cpuTitle = document.getElementById('paperTitle').innerText;
+                        break;
+                    case 'scissors':
+                        cpuImg = document.getElementById('scissors').src;
+                        cpuTitle = document.getElementById('scissorsTitle').innerText;
+                        break;
+                };
+                cpuChceBox.style.backgroundColor = '#1B75D0';
+                displayImgPc.src = cpuImg;
+                displayImgPc.style.display = 'block';
+                displayTitlePc.innerText = cpuTitle;
+            };
+
+            let plyRnd = function playRound(titleText, cpuTitle) {
+                if (titleText === "rock" && cpuTitle === "paper"){
+                    return gameResult = "You Lose! Paper beats Rock"
+                } else if (titleText === "rock" && cpuTitle === "scissors"){
+                    return gameResult = "You Won! Rock beats Scissors"
+                } else if (titleText === "paper" && cpuTitle === "rock"){
+                    return gameResult = "You Won! Paper beats Rock"
+                } else if (titleText === "paper" && cpuTitle === "scissors"){
+                    return gameResult = "You Lose! Scissors beats Paper"
+                } else if (titleText === "scissors" && cpuTitle === "rock"){
+                    return gameResult = "You Lose! Rock beats Scissors"
+                } else if (titleText === "scissors" && cpuTitle === "paper"){
+                    return gameResult = "You Won! Scissors beats Paper"
+                } else if (titleText === cpuTitle){
+                    return gameResult = "It's a tie!"
+                } else { return gameResult = "It's a tie!"}
+            };
+
         });
 
         // function game (){
