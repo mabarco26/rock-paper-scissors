@@ -9,12 +9,12 @@
 <body>
     <section class="player_score">
         <h2>Your score</h2>
-        <div class="score">0</div>
-        <div class="score_message"></div>
+        <div class="plyr_score">0</div>
+        <div class="plyr_score_message"></div>
     </section>
     <section class="game_section">
         <h1>ROCK, PAPER AND SCISSORS</h1>
-        <h2>Let's play</h2>
+        <h2 id="resultMessage">Let's play</h2>
         <div id="player_pad">
             <p>Choose an option:</p>
             <div id="game_selection">
@@ -32,7 +32,7 @@
                 </button>
             </div>
         </div>
-        <h3>ROUND <span class="round_numb">1</span> / 5</h3>
+        <h3 class="round_msg">The first to win 5!</h3>
         <section class="results">
             <section>
                 <div class="humanChoice">
@@ -53,72 +53,83 @@
     </section>
     <section class="CPU_score">
         <h2>CPU score</h2>
-        <div class="score">0</div>
-        <div class="score_message"></div>
+        <div class="cpu_score">0</div>
+        <div class="cpu_score_message"></div>
     </section>
     <script>
+            
 
-        document.addEventListener('DOMContentLoaded', () => {
             const rckBtn = document.getElementById('rockBtn');
             const pprBtn = document.getElementById('paperBtn');
             const scrBtn = document.getElementById('scissorsBtn');
             const hmanChceBox = document.querySelector('.humanChoice');
-            const cpuChceBox = document.querySelector('.computerChoice')
+            const cpuChceBox = document.querySelector('.computerChoice');
+            const hmnScore = document.querySelector('.player_score');
+            const cpuScore = document.querySelector('.CPU_score');
+            
 
             rckBtn.addEventListener('click', function() {
                 displayInfo('rock');
                 getComputerChoice();
+                playRound();
+                scoreAlert ();
+                gameOver();
             });
-
+1
             pprBtn.addEventListener('click', function() {
                 displayInfo('paper');
                 getComputerChoice();
+                playRound();
+                scoreAlert ();
+                gameOver();
             });
 
             scrBtn.addEventListener('click', function() {
                 displayInfo('scissors');
                 getComputerChoice();
+                playRound();
+                scoreAlert ();
+                gameOver();
             });
 
+            const initialBody = document.body.innerHTML;
+
             function displayInfo(choice) {
-                let imgSrc, titleText;
+                let plyrImg, plyrTitle;
                 switch(choice) {
                     case 'rock':
-                        imgSrc = document.getElementById('rock').src;
-                        titleText = document.getElementById('rockTitle').innerText;
+                        plyrImg = document.getElementById('rock').src;
+                        plyrTitle = document.getElementById('rockTitle').innerText;
                         break;
                     case 'paper':
-                        imgSrc = document.getElementById('paper').src;
-                        titleText = document.getElementById('paperTitle').innerText;
+                        plyrImg = document.getElementById('paper').src;
+                        plyrTitle = document.getElementById('paperTitle').innerText;
                         break;
                     case 'scissors':
-                        imgSrc = document.getElementById('scissors').src;
-                        titleText = document.getElementById('scissorsTitle').innerText;
+                        plyrImg = document.getElementById('scissors').src;
+                        plyrTitle = document.getElementById('scissorsTitle').innerText;
                         break;
                 };
                 
                 hmanChceBox.style.backgroundColor = '#0D9488';
-                displayImgPlayer.src = imgSrc;
+                displayImgPlayer.src = plyrImg;
                 displayImgPlayer.style.display = 'block';
-                displayTitlePlayer.innerText = titleText;
+                displayTitlePlayer.innerText = plyrTitle;
             };
 
-            function randomElement() { 
-            let randomNumber= Math.floor(Math.random()*10);
-            if (randomNumber < 3.33) {
-            element = "rock"
-            } else if (randomNumber > 6.66) {
-            element = "scissors"
-            } else {
-            element = "paper"
-            };
-            return element;
-            }; 
 
-            console.log(randomElement)
+            function getComputerChoice() {
+                let randomNumber= Math.floor(Math.random()*10);
+                
+                if (randomNumber < 3.33) {
+                    element = "rock"
+                } else if (randomNumber > 6.66) {
+                    element = "scissors"
+                } else {
+                    element = "paper"
+                };
 
-            function getComputerChoice() { 
-                let rdmElmnt = randomElement();
+                let rdmElmnt = element;
                 let cpuImg, cpuTitle;
                 switch(rdmElmnt) {
                     case 'rock':
@@ -140,134 +151,57 @@
                 displayTitlePc.innerText = cpuTitle;
             };
 
-            let plyRnd = function playRound(titleText, cpuTitle) {
-                if (titleText === "rock" && cpuTitle === "paper"){
+            function playRound() {
+                let plyrElement = displayTitlePlayer.innerText.toLowerCase();
+                let cpuElement = displayTitlePc.innerText.toLowerCase();
+                
+                if (plyrElement === "rock" && cpuElement === "paper"){
                     return gameResult = "You Lose! Paper beats Rock"
-                } else if (titleText === "rock" && cpuTitle === "scissors"){
+                } else if (plyrElement === "rock" && cpuElement === "scissors"){
                     return gameResult = "You Won! Rock beats Scissors"
-                } else if (titleText === "paper" && cpuTitle === "rock"){
+                } else if (plyrElement === "paper" && cpuElement === "rock"){
                     return gameResult = "You Won! Paper beats Rock"
-                } else if (titleText === "paper" && cpuTitle === "scissors"){
+                } else if (plyrElement === "paper" && cpuElement === "scissors"){
                     return gameResult = "You Lose! Scissors beats Paper"
-                } else if (titleText === "scissors" && cpuTitle === "rock"){
+                } else if (plyrElement === "scissors" && cpuElement === "rock"){
                     return gameResult = "You Lose! Rock beats Scissors"
-                } else if (titleText === "scissors" && cpuTitle === "paper"){
+                } else if (plyrElement === "scissors" && cpuElement === "paper"){
                     return gameResult = "You Won! Scissors beats Paper"
-                } else if (titleText === cpuTitle){
+                } else if (plyrElement === cpuElement){
                     return gameResult = "It's a tie!"
-                } else { return gameResult = "It's a tie!"}
+                } else { };
             };
 
-        });
+            function scoreAlert () {
+                    let scoreMsg = playRound();
+                    let roundMsg = document.querySelector('#resultMessage');
+                    roundMsg.innerText = scoreMsg;
+                if (scoreMsg.substr(4,1) === "W" ) {
+                    let currentPlyrScore = document.querySelector('.plyr_score');
+                    currentPlyrScore.innerText = parseInt(currentPlyrScore.innerText) + 1;
+                    roundMsg.innerText = scoreMsg;
+                } else if (scoreMsg.substr(4,1) === "L") {
+                    let currentCpuScore = document.querySelector('.cpu_score');
+                    currentCpuScore.innerText = parseInt(currentCpuScore.innerText) + 1;
+                    roundMsg.innerText = scoreMsg;
+                } else {};
 
-        // function game (){
-        //     let playerScore = 0
-        //     let computer = 0
+            };
 
-        //     let playerSelection1 = getPlayerChoice ();
-        //     let computerSelection1 = getComputerChoice();
-        //     let game1 = playRound(playerSelection1, computerSelection1);
-        //     alert(game1);
-        //     if (game1.substr(4,1) === "W" ) {
-        //         playerScore++;
-        //     } else if (game1.substr(4,1) === "L") {
-        //         computer++;
-        //     } else {};
+            function gameOver() {
+                let plyrGlblScore = document.querySelector('.plyr_score');
+                let cpuGlblScore = document.querySelector('.cpu_score');
+                if ( plyrGlblScore.innerText === '5') {
+                    alert('Congrats! You have won this Game :)');
+                    location.reload();
 
-        //     let playerSelection2 = getPlayerChoice ();
-        //     let computerSelection2 = getComputerChoice();
-        //     let game2 = playRound(playerSelection2, computerSelection2);
-        //     alert(game2);
-        //     if (game2.substr(4,1) === "W" ) {
-        //         playerScore++;
-        //     } else if (game2.substr(4,1) === "L") {
-        //         computer++;
-        //     } else {};
+                } else if ( cpuGlblScore.innerText === '5') {
+                    alert('Sorry, you have been defeated by the CPU... Game Over :(');
+                    location.reload();
 
-        //     let playerSelection3 = getPlayerChoice ();
-        //     let computerSelection3 = getComputerChoice();
-        //     let game3 = playRound(playerSelection3, computerSelection3);
-        //     alert(game3);
-        //     if (game3.substr(4,1) === "W" ) {
-        //         playerScore++;
-        //     } else if (game3.substr(4,1) === "L") {
-        //         computer++;
-        //     } else {};
+                } else {};
+            };
 
-        //     let playerSelection4 = getPlayerChoice ();
-        //     let computerSelection4 = getComputerChoice();
-        //     let game4 = playRound(playerSelection4, computerSelection4);
-        //     alert(game4);
-        //     if (game4.substr(4,1) === "W" ) {
-        //         playerScore++;
-        //     } else if (game4.substr(4,1) === "L") {
-        //         computer++;
-        //     } else {}
-
-        //     let playerSelection5 = getPlayerChoice ();
-        //     let computerSelection5 = getComputerChoice();
-        //     let game5 = playRound(playerSelection5, computerSelection5);
-        //     alert(game5);
-        //     if (game5.substr(4,1) === "W" ) {
-        //         playerScore++;
-        //     } else if (game5.substr(4,1) === "L") {
-        //         computer++;
-        //     } else {}
-
-        //     if (playerScore > computer){
-        //         return finalScore = "Score: Player: " + playerScore + " vs Computer: " + computer + ". You won!!!";
-        //     } else if (playerScore < computer) {
-        //         return finalScore = "Score: Player: " + playerScore + " vs Computer: " + computer + ". You lose :(";
-        //     } else {
-        //        return finalScore = "Score: Player: " + playerScore + " vs Computer: " + computer + ". Is a tie!!!"; 
-        //     };
-        // }
-        //     function playRound(playerSelection, computerSelection) {
-        //         if (playerSelection === "rock" && computerSelection === "paper"){
-        //             return gameResult = "You Lose! Paper beats Rock"
-        //         } else if (playerSelection === "rock" && computerSelection === "scissors"){
-        //             return gameResult = "You Won! Rock beats Scissors"
-        //         } else if (playerSelection === "paper" && computerSelection === "rock"){
-        //             return gameResult = "You Won! Paper beats Rock"
-        //         } else if (playerSelection === "paper" && computerSelection === "scissors"){
-        //             return gameResult = "You Lose! Scissors beats Paper"
-        //         } else if (playerSelection === "scissors" && computerSelection === "rock"){
-        //             return gameResult = "You Lose! Rock beats Scissors"
-        //         } else if (playerSelection === "scissors" && computerSelection === "paper"){
-        //             return gameResult = "You Won! Scissors beats Paper"
-        //         } else if (playerSelection === computerSelection){
-        //             return gameResult = "Tie, re-play the round"
-        //         } else { return gameResult = "Re-play the round"}
-        //     };
-
-        //     function getComputerChoice() { 
-        //         let randomNumber= Math.floor(Math.random()*10);
-        //         if (randomNumber < 3.33) {
-        //         element = "rock"
-        //         } else if (randomNumber > 6.66) {
-        //         element = "scissors"
-        //         } else {
-        //         element = "paper"
-        //         };
-        //         return element;
-        //         };
-
-            // function getPlayerChoice () {
-            //     let optionChoose = prompt("Lets play! Enter rock, paper or scissors ");
-            //     let chooseNoSpaces = optionChoose.trim();
-            //     let lowerCaseChoose = chooseNoSpaces.toLowerCase();
-            //     if (lowerCaseChoose === "rock" || lowerCaseChoose === "paper" || lowerCaseChoose === "scissors") {
-            //         let playerChoice = lowerCaseChoose;
-            //         return playerChoice;
-            //     } else {
-            //         alert("Sorry, This is not a valid choice to play! Try again.");
-            //         return getPlayerChoice();
-            //     };
-                
-            // }
- 
-        //     let gamesResults = game();
-        //    alert(gamesResults);
     </script>
 </body>
 </html>
